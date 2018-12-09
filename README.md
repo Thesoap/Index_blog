@@ -18,12 +18,18 @@ Databaser kan hente flere tusind elementer ud i sekundet men hvis du skal hente 
 
 Da vi startede vores projekt kørte tingene i en fin hastighed men senere så vi nogle store response tider. Senere hen da vi opnåede flere hundrede tusinde elementer så vi response tider på flere sekunder som blev nød til at blive fixet.
 
+![select_no_index](https://user-images.githubusercontent.com/14804228/49702445-6b922080-fbf8-11e8-973b-e43c90c18f0c.png)
+
 Her ser vi en select statement som skal finde 1 element i vores tabel. Tabellen indeholder over 7 millioner elementer og er på ingen måde optimeret til at indeholde så store mængder af data.
 Vi får altså en responstid på lidt over 44 sekunder. Ingen IT virksomheder eller brugere har tid til at vente 44 sekunder på et request. Uden optimering vil vi have en lineær search algoritme. Dette betyder at postgresql starter øverst og leder efter det element som har hanesst_id på 7 millioner. Dette kaldes også inde for data verden O(n). O(n) er slet ikke optimal nok når vi regner med så meget data som 7 millioner elementer.
 
 For at fixe dette problem valgte vi at bruge indexes. Ved at bruge indexes kan vi opnå tidere som er flere tusind gange hurtigere uden at skulle skrive særlig meget ekstra kode.
 
+![create_index](https://user-images.githubusercontent.com/14804228/49702466-9ed4af80-fbf8-11e8-8d31-396ce976bb1a.png)
+
 Her bruger vi create index på vores tabel comments på den column der hedder hannest_id. Denne process tiger noget tid, i vores tilfælde omkring 1 minute. Denne process skal kun køres en gang og så er hele column indexeret. Som standard vil Postgresql bruge B-tree til at indexere som står for binary-tree. Ved det er binary vil hver gang postgresql have en search algoritme som opnår O(log n) i stedet for som er meget mere optimal for store mængder af data. Både O(n) og O(log n) regnes som worst case og ikke gennemsnittet eller medianen.
+
+![index_select](https://user-images.githubusercontent.com/14804228/49702481-ccb9f400-fbf8-11e8-91ab-bf1355bf4055.png)
 
 Her kan den samme statement ses men efter vi har oprettet et index på vores column. vi er gået fra 44000~ms til 2.3~ms. Dette er over 19000 gange hurtigere ved bare at skrive et statement og sætte et index på vores column.
 
@@ -33,8 +39,11 @@ Et index er en ny tabel som bliver oprettet hvor den value som man har lavet ind
 I vores projekt skulle vi bruge et index på et ID. Eftersom dette ID er unique kunne vi bruge unique index. 
 Dette index kan kun bruge b-tree indexering og kan kun bruges på tabeler hvor den valgte column er unique. Ved at gøre dette ved Postgresql at der ikke er flere elementer med samme værdi i indexet.
 
+![uniqe_create](https://user-images.githubusercontent.com/14804228/49702501-01c64680-fbf9-11e8-98b8-f405a14ceccd.png)
 
 Denne indexering tager omkring 30 sekunder at sætte op. Dette er halvdelen af hvor en normal indexering tager. Dette er igen grundet af at Postgresql ved der ikke findes flere elementer med samme værdi. 
+
+![unique_select](https://user-images.githubusercontent.com/14804228/49702506-10acf900-fbf9-11e8-95ff-c3954f0a6ec1.png)
 
 Med denne indexering får vi hurtigere tider end med vores normale indexering.Vi skær cirka ⅓ af tiden i forhold til en normal indexering bare ved at sige til postgresql at det er et unique index. Dette er omkring 28000~ gange hurtigere end ikke at sæt nogen indexering op på columnen.
 
