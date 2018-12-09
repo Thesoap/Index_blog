@@ -1,16 +1,21 @@
-Postgresql og indexering
-Abstract
+#Postgresql og indexering 
 
+##Abstract
+ 
 Postgres databaser med store mængde data skaber langsomme database execute tider. Uden optimering vil postgres execute de givne statements på en ineffektiv måde som giver langsomme svartider. Med få enkelte implementeringer vil databaser med en n elementer kunne gå fra O(n) til O(log(n)). en million elementer vil kunne gå fra en million “tid” til seks “tid”.
 
-Problemstilling
+##Problemstilling 
 Vores problem opstod da vi byggede et projekt som skulle fungere som et forum med opslag og kommentare. Alle disse opslag og kommentare blev gemt i en PostgreSQL database. Over tid opnåede vi flere millioner opslag og kommentare, hvilket gjorde vores datadase opnåede response tider langt over hvad brugere kunne forvente. 
 
-Introduktion
+
+##Introduktion
+
 Databaser er en del af mange projekter rundt om i verden. Lige meget hvilket system der skal bygges vil der altid skulle bruges en database for at indeholde alt den data som bliver brugt. I starten indeholder disse databaser selvfølgelig små mængder af data men senere hen i projektet levetid vil databaserne ende med at indeholder “big data”. 
 Databaser kan hente flere tusind elementer ud i sekundet men hvis du skal hente flere millioner eller bare søge mellem flere millioner elementer opnår vi response tider på flere sekunder som ikke er acceptabelt i dagens IT verden. 
 
-Løsning
+
+##Løsning
+
 Da vi startede vores projekt kørte tingene i en fin hastighed men senere så vi nogle store response tider. Senere hen da vi opnåede flere hundrede tusinde elementer så vi response tider på flere sekunder som blev nød til at blive fixet.
 
 Her ser vi en select statement som skal finde 1 element i vores tabel. Tabellen indeholder over 7 millioner elementer og er på ingen måde optimeret til at indeholde så store mængder af data.
@@ -33,12 +38,16 @@ Denne indexering tager omkring 30 sekunder at sætte op. Dette er halvdelen af h
 
 Med denne indexering får vi hurtigere tider end med vores normale indexering.Vi skær cirka ⅓ af tiden i forhold til en normal indexering bare ved at sige til postgresql at det er et unique index. Dette er omkring 28000~ gange hurtigere end ikke at sæt nogen indexering op på columnen.
 
-Konklusion
+
+##Konklusion
+
 Som det kan ses på resultaterne er index et yderst stærkt værktøj når databasen indeholder enorme mængder af data. postgresql er en super intelligent database men den kræver man selv sætter nogle ting op for at få det fulde udbytte af den. At få svar tider på flere sekunder vil aldrig kunne blive accepteret i dag når data skal flyttes rundt hele tiden og IT udvikler sig så hurtigt som det gør. Med en enkelt forståelse for hvordan databaser læser data og hvordan man kan vælge hvordan den skal gøre det kan man optimere sin database mange tusinde gange i forhold til hvor stor datamængde man arbejder med. 
 Man skal have en forståelse for hvordan ens database og tabels er bygget op. Jo større forståelse man har desto mere præcist vil man kunne bygge sin optimering op for at opnår hurtigere og bedre performance på ens database.
 Indexering fixer ikke alle problemer i en database men er helt klart noget man skal have sat op for at behandle kæmpe mængder af data.
 
-Information
+##Information
 https://www.postgresql.org/docs/9.1/indexes-types.htm
+
 https://severalnines.com/blog/postgresql-database-indexing-overview
+
 https://www.postgresql.org/docs/9.4/indexes-unique.html
