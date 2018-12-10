@@ -10,7 +10,7 @@ Vores problem opstod da vi byggede et projekt som skulle fungere som et forum me
 
 ## Introduktion
 
-Databaser er en del af mange projekter rundt om i verden. Lige meget hvilket system der skal bygges vil der altid skulle bruges en database for at indeholde alt den data som bliver brugt. I starten indeholder disse databaser selvfølgelig små mængder af data men senere hen i projektet levetid vil databaserne ende med at indeholder “big data”. 
+Databaser er en del af mange projekter rundt om i verden. Lige meget hvilket system der skal bygges vil der altid skulle bruges en database for at indeholde alt den data som bliver brugt. I starten indeholder disse databaser selvfølgelig små mængder af data men senere hen i projektets levetid vil databaserne ende med at indeholder “big data”. 
 Databaser kan hente flere tusind elementer ud i sekundet men hvis du skal hente flere millioner eller bare søge mellem flere millioner elementer opnår vi response tider på flere sekunder som ikke er acceptabelt i dagens IT verden. 
 
 
@@ -27,13 +27,13 @@ For at fixe dette problem valgte vi at bruge indexes. Ved at bruge indexes kan v
 
 ![create_index](https://user-images.githubusercontent.com/14804228/49702466-9ed4af80-fbf8-11e8-8d31-396ce976bb1a.png)
 
-Her bruger vi create index på vores tabel comments på den column der hedder hannest_id. Denne process tiger noget tid, i vores tilfælde omkring 1 minute. Denne process skal kun køres en gang og så er hele column indexeret. Som standard vil Postgresql bruge B-tree til at indexere som står for binary-tree. Ved det er binary vil hver gang postgresql have en search algoritme som opnår O(log n) i stedet for som er meget mere optimal for store mængder af data. Både O(n) og O(log n) regnes som worst case og ikke gennemsnittet eller medianen.
+Her bruger vi create index på vores tabel comments på den column der hedder hannest_id. Denne process tager noget tid, i vores tilfælde omkring 1 minute. Denne process skal kun køres en gang og så er hele column indexeret. Som standard vil Postgresql bruge B-tree til at indexere som står for binary-tree. Ved det er binary vil vi opnå O(log n) i stedet for som er meget mere optimal for store mængder af data. Både O(n) og O(log n) regnes som worst case og ikke gennemsnittet eller medianen.
 
 ![index_select](https://user-images.githubusercontent.com/14804228/49702481-ccb9f400-fbf8-11e8-91ab-bf1355bf4055.png)
 
 Her kan den samme statement ses men efter vi har oprettet et index på vores column. vi er gået fra 44000~ms til 2.3~ms. Dette er over 19000 gange hurtigere ved bare at skrive et statement og sætte et index på vores column.
 
-Dog er indexes ikke kun positive. Ved at lave indexes vil ens write statements blive langsommere. Dette skyldes at hvis elementet skal også sættes ind i indexet og ikke kun ind i den normale tabel. Eftersom at indexet har en struktur vil den først skulle finde elementet placering i indexet. 
+Dog er indexes ikke kun positive. Ved at lave indexes vil ens write statements blive langsommere. Dette skyldes at elementet skal også sættes ind i indexet og ikke kun ind i den normale tabel. Eftersom at indexet har en struktur vil den først skulle finde elementets placering i indexet. 
 Et index er en ny tabel som bliver oprettet hvor den value som man har lavet indexet på bliver gemt. Så indexet er ligesom en indholdsfortegnelse for databasen omkring hvor den skal kigge.
 
 I vores projekt skulle vi bruge et index på et ID. Eftersom dette ID er unique kunne vi bruge unique index. 
