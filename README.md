@@ -1,8 +1,8 @@
-# Postgresql og indexering 
+# sql og indexering
 
 ## Abstract
  
-Postgres databaser med store mængde data skaber langsomme database execute tider. Uden optimering vil postgres execute de givne statements på en ineffektiv måde som giver langsomme svartider. Med få enkelte implementeringer vil databaser med en n elementer kunne gå fra O(n) til O(log(n)). en million elementer vil kunne gå fra en million “tid” til seks “tid”.
+sql databaser opnår store svartider på requests når mængden af data bliver for stor. sql databaser skal bruge stor tid på at lede efter bestemt data når der er for mange elementer i databasen. Med en enkel implementering vil databaser med n elementer kunne gå fra O(n) til O(log2(n)). Dette vil gøre at en database med flere millioner elementer vil kunne gå fra svar tider på flere sekunder til få milisekunder.
 
 ## Problemstilling 
 Vores problem opstod da vi byggede et projekt som skulle fungere som et forum med opslag og kommentare. Alle disse opslag og kommentare blev gemt i en PostgreSQL database. Over tid opnåede vi flere millioner opslag og kommentare, hvilket gjorde vores datadase opnåede response tider langt over hvad brugere kunne forvente. 
@@ -27,7 +27,7 @@ For at fixe dette problem valgte vi at bruge indexes. Ved at bruge indexes kan v
 
 ![create_index](https://user-images.githubusercontent.com/14804228/49702466-9ed4af80-fbf8-11e8-8d31-396ce976bb1a.png)
 
-Her bruger vi create index på vores tabel comments på den column der hedder hannest_id. Denne process tager noget tid, i vores tilfælde omkring 1 minute. Denne process skal kun køres en gang og så er hele column indexeret. Som standard vil Postgresql bruge B-tree til at indexere som står for binary-tree. Ved det er binary vil vi opnå O(log n) i stedet for som er meget mere optimal for store mængder af data. Både O(n) og O(log n) regnes som worst case og ikke gennemsnittet eller medianen.
+Her bruger vi create index på vores tabel comments på den column der hedder hannest_id. Denne process tager noget tid, i vores tilfælde omkring 1 minute. Denne process skal kun køres en gang og så er hele column indexeret. Som standard vil Postgresql bruge B-tree til at indexere som står for binary-tree. Ved det er binary vil vi opnå O(log2 n) i stedet for som er meget mere optimal for store mængder af data. Både O(n) og O(log2 n) regnes som worst case og ikke gennemsnittet eller medianen.
 
 ![index_select](https://user-images.githubusercontent.com/14804228/49702481-ccb9f400-fbf8-11e8-91ab-bf1355bf4055.png)
 
