@@ -53,10 +53,17 @@ Med denne indexering får vi hurtigere tider end med vores normale indexering.Vi
 Som det kan ses på resultaterne er index et yderst stærkt værktøj når databasen indeholder enorme mængder af data. postgresql er en super intelligent database men den kræver man selv sætter nogle ting op for at få det fulde udbytte af den. At få svar tider på flere sekunder vil aldrig kunne blive accepteret i dag når data skal flyttes rundt hele tiden og IT udvikler sig så hurtigt som det gør. Med en enkelt forståelse for hvordan databaser læser data og hvordan man kan vælge hvordan den skal gøre det kan man optimere sin database mange tusinde gange i forhold til hvor stor datamængde man arbejder med. 
 Man skal have en forståelse for hvordan ens database og tabels er bygget op. Jo større forståelse man har desto mere præcist vil man kunne bygge sin optimering op for at opnår hurtigere og bedre performance på ens database.
 Indexering fixer ikke alle problemer i en database men er helt klart noget man skal have sat op for at behandle kæmpe mængder af data.
+I fremtiden vil vi kunne sætte vores database op med det samme før problemet opstår. Hvis vi ved vi får store mængder data kan vi sætte index på. Hvis vi også ved at det column vi vil sætte index på er unique så vil vi også kunne bruge dette.
 
 ## Information
 https://www.postgresql.org/docs/9.1/indexes-types.htm
 
+https://www.tutorialspoint.com/sql/sql-indexes.htm
+
 https://severalnines.com/blog/postgresql-database-indexing-overview
 
 https://www.postgresql.org/docs/9.4/indexes-unique.html
+
+https://sqlity.net/en/2445/b-plus-tree/
+
+
