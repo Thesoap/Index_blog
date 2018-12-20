@@ -18,6 +18,8 @@ Databaser kan hente flere tusind elementer ud i sekundet men hvis du skal hente 
 
 Da vi startede vores projekt kørte tingene i en fin hastighed men senere så vi nogle store response tider. Senere hen da vi opnåede flere hundrede tusinde elementer så vi response tider på flere sekunder som blev nød til at blive fixet.
 
+Vi har opsat et test miljø på vores server som også kører projektet. Vi har lavet en kopi af tablen som vi bruger og tester der på data som er helt magen til hvor problemet opstod. Det skal dog derfor huskes at serveren som bliver testet på også bliver brugt til andet som derved kan skabe noget tal som er lidt skæve i forhold til hvad det realt kunnne være.
+
 ![select_no_index](https://user-images.githubusercontent.com/14804228/49702445-6b922080-fbf8-11e8-973b-e43c90c18f0c.png)
 
 Her ser vi en select statement som skal finde 1 element i vores tabel. Tabellen indeholder over 7 millioner elementer og er på ingen måde optimeret til at indeholde så store mængder af data.
