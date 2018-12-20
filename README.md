@@ -35,6 +35,7 @@ Her kan den samme statement ses men efter vi har oprettet et index på vores col
 
 Dog er indexes ikke kun positive. Ved at lave indexes vil ens write statements blive langsommere. Dette skyldes at elementet skal også sættes ind i indexet og ikke kun ind i den normale tabel. Eftersom at indexet har en struktur vil den først skulle finde elementets placering i indexet. 
 Et index er en ny tabel som bliver oprettet hvor den value som man har lavet indexet på bliver gemt. Så indexet er ligesom en indholdsfortegnelse for databasen omkring hvor den skal kigge.
+Derved vil det kun give mening at udnytte indexes hvis man bruger select statements ofte og ikke inserts. Dette kunne f.eks. være en tabel der indeholder færdige journaler. Der vil ofte blive smidt journaler ind men det er måske sjældent man skal bruge en gammel journal. Derfor ville index måske ikke være det værd at bruge i dette scenarie.
 
 I vores projekt skulle vi bruge et index på et ID. Eftersom dette ID er unique kunne vi bruge unique index. 
 Dette index kan kun bruge b-tree indexering og kan kun bruges på tabeler hvor den valgte column er unique. Ved at gøre dette ved Postgresql at der ikke er flere elementer med samme værdi i indexet.
